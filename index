@@ -1,0 +1,1144 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SenosAmorim Performance</title>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg-primary: #03060c;
+      --bg-secondary: #07101f;
+      --blue-main: #526BA9;
+      --blue-accent: #2F64FF;
+      --white: #FFFFFF;
+      --gray-light: #C8D0DE;
+      --whatsapp: #20D66B;
+    }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background-color: var(--bg-primary);
+      color: var(--white);
+      overflow-x: hidden;
+    }
+
+    /* ========== HEADER ========== */
+    header {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 100;
+      padding: 0 48px;
+      height: 120px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: linear-gradient(to bottom, rgba(3,6,12,0.90) 0%, transparent 100%);
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      height: 100%;
+    }
+
+    .logo img {
+      height: 300px; /* altere só este valor para mudar o tamanho da logo */
+      width: auto;
+      object-fit: contain;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+    }
+
+    nav a {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--gray-light);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    nav a:hover { color: var(--white); }
+
+    .menu-toggle {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 4px;
+    }
+
+    .menu-toggle span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--white);
+      border-radius: 2px;
+    }
+
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      top: 80px;
+      left: 0;
+      width: 100%;
+      background: rgba(3,6,12,0.97);
+      padding: 24px 28px;
+      flex-direction: column;
+      gap: 20px;
+      z-index: 99;
+      border-top: 1px solid rgba(47,100,255,0.3);
+    }
+
+    .mobile-menu.open { display: flex; }
+
+    .mobile-menu a {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--gray-light);
+      text-decoration: none;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+    }
+
+    .mobile-menu a:last-child { border-bottom: none; }
+
+    .btn-whatsapp-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: transparent;
+      border: 2px solid var(--blue-accent);
+      color: var(--white);
+      font-family: 'Montserrat', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 10px 20px;
+      border-radius: 4px;
+      text-decoration: none;
+      transition: background 0.2s, color 0.2s;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .btn-whatsapp-header:hover { background: var(--blue-accent); }
+    .btn-whatsapp-header svg { width: 16px; height: 16px; }
+
+    /* ========== HERO ========== */
+    .hero {
+      position: relative;
+      width: 100%;
+      min-height: 100vh;
+      overflow: hidden;
+    }
+
+    .hero-bg {
+      background-image: url('capa.png');
+      background-size: cover;
+      background-position: center top;
+      background-repeat: no-repeat;
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+    }
+
+    .hero-bg::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to right,
+        rgba(3,6,12,0.72) 0%,
+        rgba(3,6,12,0.35) 55%,
+        rgba(3,6,12,0.05) 100%
+      );
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(to right, var(--blue-accent), var(--blue-main), transparent);
+      z-index: 10;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 5;
+      display: flex;
+      align-items: center;
+      min-height: 100vh;
+      padding: 140px 60px 80px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .hero-text { max-width: 540px; }
+
+    .hero-label {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--blue-accent);
+      margin-bottom: 18px;
+      border-left: 3px solid var(--blue-accent);
+      padding-left: 10px;
+    }
+
+    .hero-title {
+      font-family: 'Oswald', sans-serif;
+      font-size: clamp(42px, 5.5vw, 68px);
+      font-weight: 700;
+      line-height: 1.05;
+      text-transform: uppercase;
+      color: var(--white);
+      margin-bottom: 10px;
+    }
+
+    .hero-title .highlight { color: var(--blue-accent); }
+
+    .hero-title .title-last-line {
+      display: block;
+      white-space: nowrap;
+    }
+
+    .hero-subtitle {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--gray-light);
+      line-height: 1.7;
+      margin-top: 18px;
+      margin-bottom: 30px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .hero-subtitle .hl { color: var(--blue-accent); font-weight: 600; }
+
+    .hero-benefits {
+      display: flex;
+      gap: 24px;
+      margin-bottom: 36px;
+      flex-wrap: wrap;
+    }
+
+    .benefit-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    .benefit-icon {
+      width: 36px;
+      height: 36px;
+      border: 1.5px solid var(--blue-accent);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .benefit-icon svg { width: 16px; height: 16px; fill: var(--blue-accent); }
+
+    .benefit-text strong {
+      display: block;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--white);
+    }
+
+    .benefit-text span {
+      font-size: 11px;
+      color: var(--gray-light);
+    }
+
+    .btn-hero {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--blue-accent);
+      color: var(--white);
+      font-family: 'Oswald', sans-serif;
+      font-size: 17px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 16px 36px;
+      border-radius: 4px;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.15s;
+    }
+
+    .btn-hero:hover { background: #1a50e0; transform: translateY(-2px); }
+    .btn-hero svg { width: 20px; height: 20px; }
+
+    .hero-caption {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 14px;
+      font-size: 12px;
+      color: var(--gray-light);
+    }
+
+    .hero-caption svg { width: 14px; height: 14px; fill: var(--blue-main); }
+
+    /* ========== BENEFÍCIOS ========== */
+    .beneficios {
+      background-color: #030e1e;
+      padding: 70px 60px;
+      text-align: center;
+    }
+
+    .beneficios-label {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--blue-accent);
+      margin-bottom: 10px;
+    }
+
+    .beneficios-title {
+      font-family: 'Oswald', sans-serif;
+      font-size: clamp(28px, 3.5vw, 42px);
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--white);
+      margin-bottom: 50px;
+    }
+
+    .beneficios-grid {
+      display: flex;
+      justify-content: center;
+      gap: 0;
+      flex-wrap: nowrap;
+    }
+
+    .beneficio-card {
+      flex: 1;
+      max-width: 220px;
+      padding: 30px 20px;
+      border-right: 1px solid rgba(47,100,255,0.2);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      transition: background 0.3s, transform 0.3s;
+      border-radius: 8px;
+      cursor: default;
+    }
+
+    .beneficio-card:hover {
+      background: rgba(47,100,255,0.08);
+      transform: translateY(-6px);
+    }
+
+    .beneficio-card:hover h3 { color: var(--blue-accent); }
+    .beneficio-card img { transition: transform 0.3s; }
+    .beneficio-card:hover img { transform: scale(1.1); }
+    .beneficio-card:last-child { border-right: none; }
+
+    .beneficio-card img {
+      width: 64px;
+      height: 64px;
+      object-fit: contain;
+    }
+
+    .beneficio-card h3 {
+      font-family: 'Oswald', sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      text-transform: uppercase;
+      color: var(--white);
+      line-height: 1.3;
+    }
+
+    .beneficio-card p {
+      font-size: 12px;
+      color: var(--gray-light);
+      line-height: 1.6;
+    }
+
+    /* ========== SOBRE NÓS ========== */
+    .sobre {
+      background-color: #03060c;
+      padding: 80px 60px;
+    }
+
+    .sobre-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      align-items: flex-start;
+      gap: 60px;
+    }
+
+    .sobre-foto {
+      flex-shrink: 0;
+      width: 420px;
+      border: 1.5px solid var(--blue-accent);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .sobre-foto img {
+      width: 100%;
+      height: auto;
+      object-fit: cover;
+      display: block;
+    }
+
+    .sobre-texto { flex: 1; }
+
+    .sobre-label {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--blue-accent);
+      margin-bottom: 10px;
+    }
+
+    .sobre-title {
+      font-family: 'Oswald', sans-serif;
+      font-size: clamp(26px, 3vw, 38px);
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--white);
+      margin-bottom: 24px;
+      line-height: 1.1;
+    }
+
+    .sobre-desc {
+      font-size: 15px;
+      color: var(--gray-light);
+      line-height: 1.8;
+      margin-bottom: 24px;
+    }
+
+    .sobre-destaque {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--white);
+      line-height: 1.8;
+      margin-bottom: 36px;
+    }
+
+    .btn-sobre {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: transparent;
+      border: 2px solid var(--blue-accent);
+      color: var(--white);
+      font-family: 'Montserrat', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 10px 20px;
+      border-radius: 4px;
+      text-decoration: none;
+      transition: background 0.2s;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .btn-sobre:hover { background: var(--blue-accent); }
+    .btn-sobre svg { width: 16px; height: 16px; }
+
+    /* ========== METODOLOGIA ========== */
+    .metodologia {
+      background-color: #07101f;
+      padding: 80px 60px;
+    }
+
+    .metodologia-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 50px;
+      text-align: center;
+    }
+
+    .metodologia-label {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--blue-accent);
+    }
+
+    .metodologia-title {
+      font-family: 'Oswald', sans-serif;
+      font-size: clamp(50px, 3.5vw, 42px);
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--white);
+    }
+
+    .metodologia-body {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 60px;
+    }
+
+    .metodologia-etapas {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+
+    .etapa {
+      display: flex;
+      align-items: flex-start;
+      gap: 20px;
+    }
+
+    .etapa-num {
+      flex-shrink: 0;
+      width: 65px;
+      height: 65px;
+      border: 2px solid var(--blue-accent);
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Oswald', sans-serif;
+      font-size: 30px;
+      font-weight: 700;
+      color: var(--blue-accent);
+    }
+
+    .etapa-texto h3 {
+      font-family: 'Oswald', sans-serif;
+      font-size: 18px;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--white);
+      margin-bottom: 6px;
+    }
+
+    .etapa-texto p {
+      font-size: 13px;
+      color: var(--gray-light);
+      line-height: 1.7;
+    }
+
+    .metodologia-foto {
+      flex-shrink: 0;
+      width: 420px;
+      border: 1.5px solid var(--blue-accent);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .metodologia-foto img {
+      width: 100%;
+      height: auto;
+      display: block;
+      object-fit: cover;
+    }
+
+    /* ========== CTA FINAL ========== */
+    .cta {
+      position: relative;
+      padding: 70px 60px;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .cta-bg {
+      background-image: url('fundo.png');
+      background-size: cover;
+      background-position: center;
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+    }
+
+    .cta-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .cta-title {
+      font-family: 'Oswald', sans-serif;
+      font-size: clamp(28px, 3.5vw, 44px);
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--white);
+      margin-bottom: 10px;
+    }
+
+    .cta-subtitle {
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--white);
+      margin-bottom: 32px;
+    }
+
+    .btn-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--whatsapp);
+      color: var(--white);
+      font-family: 'Oswald', sans-serif;
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 18px 48px;
+      border-radius: 6px;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.15s;
+    }
+
+    .btn-cta:hover { background: #17b85a; transform: translateY(-2px); }
+    .btn-cta svg { width: 22px; height: 22px; }
+
+    .cta-caption {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 16px;
+      font-size: 13px;
+      color: rgba(255,255,255,0.85);
+    }
+
+    .cta-caption svg { width: 14px; height: 14px; fill: rgba(255,255,255,0.85); }
+
+    /* ========== RODAPÉ ========== */
+    .rodape {
+      background-color: #07101f;
+      padding: 32px 60px 0;
+      border-top: 1px solid rgba(47,100,255,0.2);
+    }
+
+    .rodape-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 220px 1fr 1fr;
+      gap: 48px;
+      padding-bottom: 24px;
+      align-items: start;
+    }
+
+    .rodape-logo {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .rodape-logo img {
+      height: 44px;
+      width: auto;
+      object-fit: contain;
+      display: block;
+    }
+
+    .rodape-desc {
+      font-size: 13px;
+      color: var(--gray-light);
+      line-height: 1.7;
+    }
+
+    .rodape-col h4 {
+      font-family: 'Oswald', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--white);
+      margin-bottom: 18px;
+    }
+
+    .rodape-col ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .rodape-col ul li a {
+      font-size: 13px;
+      color: var(--gray-light);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .rodape-col ul li a:hover { color: var(--white); }
+
+    .rodape-contato {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .contato-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 13px;
+      color: var(--gray-light);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .contato-item:hover { color: var(--white); }
+
+    .contato-item svg {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .rodape-copy {
+      border-top: 1px solid rgba(255,255,255,0.07);
+      padding: 16px 0;
+      text-align: center;
+      font-size: 12px;
+      color: var(--gray-light);
+    }
+
+    /* ========== RESPONSIVO TABLET ========== */
+    @media (max-width: 900px) {
+      header { padding: 0 28px; }
+      nav { gap: 18px; }
+      nav a { font-size: 11px; }
+      .hero-content { padding: 110px 36px 60px; }
+      .hero-title { font-size: 48px; }
+
+      .beneficios { padding: 60px 28px; }
+      .beneficios-grid { flex-wrap: wrap; gap: 0; }
+      .beneficio-card {
+        flex: 0 0 50%;
+        max-width: 50%;
+        border-right: none;
+        border-bottom: 1px solid rgba(47,100,255,0.2);
+        padding: 24px 16px;
+      }
+      .beneficio-card:nth-child(odd) { border-right: 1px solid rgba(47,100,255,0.2); }
+      .beneficio-card:last-child { border-bottom: none; border-right: none; }
+
+      .sobre { padding: 60px 28px; }
+      .sobre-inner { flex-direction: column; gap: 28px; }
+      .sobre-foto { width: 75%; margin: 0 auto; }
+
+      .metodologia { padding: 60px 28px; }
+      .metodologia-body { flex-direction: column; gap: 36px; }
+      .metodologia-foto { width: 75%; margin: 0 auto; }
+
+      .rodape { padding: 32px 28px 0; }
+      .rodape-inner { grid-template-columns: 1fr 1fr; gap: 32px; }
+    }
+
+    /* ========== RESPONSIVO MOBILE ========== */
+    @media (max-width: 640px) {
+      header { padding: 0 20px; }
+      nav { display: none; }
+      .btn-whatsapp-header { display: none; }
+      .menu-toggle { display: flex; }
+
+      .hero { min-height: 100svh; }
+
+      .hero-bg {
+        background-image: url('capa_mobile.png');
+        background-position: center top;
+        background-size: cover;
+      }
+
+      .hero-bg::after {
+        background: linear-gradient(
+          to right,
+          rgba(3,6,12,0.88) 0%,
+          rgba(3,6,12,0.60) 50%,
+          rgba(3,6,12,0.05) 100%
+        );
+      }
+
+      .hero-content {
+        padding: 20vh 0 48px;
+        align-items: flex-start;
+      }
+
+      .hero-text {
+        max-width: 58%;
+        padding-left: 20px;
+      }
+
+      .hero-label { font-size: 9px; letter-spacing: 1.5px; }
+
+      .hero-title {
+        font-size: clamp(22px, 6.5vw, 34px);
+        line-height: 1.08;
+      }
+
+      .hero-subtitle { font-size: 11px; }
+      .hero-benefits { flex-direction: column; gap: 12px; }
+      .benefit-text strong { font-size: 11px; }
+      .benefit-text span { font-size: 10px; }
+
+      .btn-hero {
+        font-size: 13px;
+        padding: 13px 16px;
+        gap: 7px;
+      }
+
+      .hero-caption { font-size: 10px; }
+
+      .beneficios { padding: 48px 20px; }
+      .beneficios-title { font-size: 24px; margin-bottom: 36px; }
+      .beneficio-card { flex: 0 0 50%; max-width: 50%; }
+
+      .sobre { padding: 48px 20px; }
+      .sobre-inner { flex-direction: column; gap: 28px; }
+      .sobre-texto { order: 1; }
+      .sobre-foto { order: 2; width: 75%; margin: 0 auto; }
+      .sobre-title { font-size: 24px; }
+      .sobre-desc { font-size: 14px; }
+      .sobre-destaque { font-size: 14px; }
+
+      .metodologia { padding: 48px 20px; }
+      .metodologia-body { flex-direction: column; gap: 28px; }
+      .metodologia-foto { width: 75%; margin: 0 auto; }
+
+      .cta-bg { background-image: url('fundo_mobile.png'); }
+
+      .rodape { padding: 28px 20px 0; }
+      .rodape-inner { grid-template-columns: 1fr; gap: 28px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== HEADER ===== -->
+  <header>
+    <div class="logo">
+      <img src="logo01.png" alt="SenosAmorim Performance" />
+    </div>
+
+    <div class="header-right">
+      <nav>
+        <a href="#inicio">Início</a>
+        <a href="#sobre">Sobre</a>
+        <a href="#beneficios">Benefícios</a>
+        <a href="#metodologia">Metodologia</a>
+      </nav>
+
+      <!-- SUBSTITUA: troque pelo seu número com DDD -->
+      <a href="https://wa.me/5521999999999" target="_blank" class="btn-whatsapp-header">
+        <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+        </svg>
+        Falar no WhatsApp
+      </a>
+
+      <div class="menu-toggle" id="menuToggle" onclick="toggleMenu()">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Menu mobile -->
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#inicio" onclick="closeMenu()">Início</a>
+    <a href="#sobre" onclick="closeMenu()">Sobre</a>
+    <a href="#beneficios" onclick="closeMenu()">Benefícios</a>
+    <a href="#metodologia" onclick="closeMenu()">Metodologia</a>
+    <!-- SUBSTITUA: troque pelo seu número com DDD -->
+    <a href="https://wa.me/5521999999999" target="_blank" style="color: var(--blue-accent);">📲 Falar no WhatsApp</a>
+  </div>
+
+  <!-- ===== HERO ===== -->
+  <section class="hero" id="inicio">
+    <div class="hero-bg"></div>
+
+    <div class="hero-content">
+      <div class="hero-text">
+        <span class="hero-label">SenosAmorim Performance</span>
+
+        <h1 class="hero-title">
+          PREPARAÇÃO<br>
+          FÍSICA PARA<br>
+          <span class="title-last-line"><span class="highlight">PERFORMANCE</span> REAL</span>
+        </h1>
+
+        <p class="hero-subtitle">
+          TREINAMENTO PRESENCIAL FOCADO EM
+          <span class="hl">FORÇA</span>,
+          <span class="hl">RESISTÊNCIA</span> E
+          <span class="hl">DESEMPENHO</span> NO SEU ESPORTE.
+        </p>
+
+        <div class="hero-benefits">
+          <div class="benefit-item">
+            <div class="benefit-icon">
+              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/>
+              </svg>
+            </div>
+            <div class="benefit-text">
+              <strong>Treinos personalizados</strong>
+              <span>de acordo com seu objetivo</span>
+            </div>
+          </div>
+
+          <div class="benefit-item">
+            <div class="benefit-icon">
+              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/>
+              </svg>
+            </div>
+            <div class="benefit-text">
+              <strong>Resultados reais</strong>
+              <span>com acompanhamento profissional</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- SUBSTITUA: troque pelo seu número com DDD -->
+        <a href="https://wa.me/5521999999999" target="_blank" class="btn-hero">
+          <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+          </svg>
+          FALAR NO WHATSAPP
+        </a>
+
+        <div class="hero-caption">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+          </svg>
+          Atendimento rápido e direto com nossa equipe
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== BENEFÍCIOS ===== -->
+  <section class="beneficios" id="beneficios">
+    <p class="beneficios-label">Benefícios</p>
+    <h2 class="beneficios-title">MAIS QUE TREINO, TRANSFORMAÇÃO</h2>
+
+    <div class="beneficios-grid">
+      <div class="beneficio-card">
+        <img src="treinamento_personalizado.png" alt="Treinamento Personalizado" />
+        <h3>Treinamento<br>Personalizado</h3>
+        <p>Programas individualizados para suas necessidades e objetivos.</p>
+      </div>
+      <div class="beneficio-card">
+        <img src="acompanhamento_profissional.png" alt="Acompanhamento Profissional" />
+        <h3>Acompanhamento<br>Profissional</h3>
+        <p>Suporte contínuo e ajustes constantes para sua evolução.</p>
+      </div>
+      <div class="beneficio-card">
+        <img src="foco_em_performance.png" alt="Foco em Performance" />
+        <h3>Foco em<br>Performance</h3>
+        <p>Mais força, resistência e desempenho para seu esporte e dia a dia.</p>
+      </div>
+      <div class="beneficio-card">
+        <img src="evolucao_continua.png" alt="Evolução Contínua" />
+        <h3>Evolução<br>Contínua</h3>
+        <p>Métodos atualizados para garantir progresso constante.</p>
+      </div>
+      <div class="beneficio-card">
+        <img src="resultado_mensuraveis.png" alt="Resultados Mensuráveis" />
+        <h3>Resultados<br>Mensuráveis</h3>
+        <p>Acompanhamos seus resultados de perto para atingir suas metas.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SOBRE NÓS ===== -->
+  <section class="sobre" id="sobre">
+    <div class="sobre-inner">
+      <div class="sobre-foto">
+        <img src="img_sobre_nos.png" alt="Senos Amorim Performance" />
+      </div>
+      <div class="sobre-texto">
+        <p class="sobre-label">Sobre Nós</p>
+        <h2 class="sobre-title">SENOS AMORIM PERFORMANCE</h2>
+        <p class="sobre-desc">
+          Somos especialistas em preparação física e temos como missão transformar pessoas através do treino inteligente e personalizado. Unimos experiência, ciência e prática para entregar resultados reais e duradouros.
+        </p>
+        <p class="sobre-destaque">
+          Aqui, você não é apenas mais um aluno.<br>
+          Você é único. Seu treino também.
+        </p>
+        <!-- SUBSTITUA: troque pelo seu número com DDD -->
+        <a href="https://wa.me/5521999999999" target="_blank" class="btn-sobre">
+          <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+          </svg>
+          Falar no WhatsApp
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== METODOLOGIA ===== -->
+  <section class="metodologia" id="metodologia">
+    <div class="metodologia-inner">
+      <p class="metodologia-label">Nossa Metodologia</p>
+      <h2 class="metodologia-title">CIÊNCIA, EXPERIÊNCIA E RESULTADOS</h2>
+    </div>
+
+    <div class="metodologia-body">
+      <div class="metodologia-etapas">
+        <div class="etapa">
+          <div class="etapa-num">01</div>
+          <div class="etapa-texto">
+            <h3>Avaliação</h3>
+            <p>Analisamos seu perfil, histórico e objetivos para criar o plano ideal.</p>
+          </div>
+        </div>
+        <div class="etapa">
+          <div class="etapa-num">02</div>
+          <div class="etapa-texto">
+            <h3>Plano Personalizado</h3>
+            <p>Treinos estruturados de acordo com suas necessidades e metas.</p>
+          </div>
+        </div>
+        <div class="etapa">
+          <div class="etapa-num">03</div>
+          <div class="etapa-texto">
+            <h3>Execução e Acompanhamento</h3>
+            <p>Acompanhamento próximo, ajustes e motivação para garantir sua evolução.</p>
+          </div>
+        </div>
+      </div>
+      <div class="metodologia-foto">
+        <img src="treinamentos.png" alt="Metodologia SenosAmorim" />
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CTA FINAL ===== -->
+  <section class="cta">
+    <div class="cta-bg"></div>
+    <div class="cta-content">
+      <h2 class="cta-title">PRONTO PARA SUA MELHOR VERSÃO?</h2>
+      <p class="cta-subtitle">Comece sua evolução agora mesmo!</p>
+      <!-- SUBSTITUA: troque pelo seu número com DDD -->
+      <a href="https://wa.me/5521999999999" target="_blank" class="btn-cta">
+        <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+        </svg>
+        FALAR NO WHATSAPP
+      </a>
+      <div class="cta-caption">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+        </svg>
+        Atendimento rápido e direto com nossa equipe
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== RODAPÉ ===== -->
+  <footer class="rodape">
+    <div class="rodape-inner">
+
+      <div class="rodape-logo">
+        <img src="logo_rodapé.png" alt="SenosAmorim Performance" />
+        <p class="rodape-desc">Treinamento presencial focado em força, resistência e desempenho para sua melhor performance.</p>
+      </div>
+
+      <div class="rodape-col">
+        <h4>Links Rápidos</h4>
+        <ul>
+          <li><a href="#inicio">Início</a></li>
+          <li><a href="#sobre">Sobre</a></li>
+          <li><a href="#beneficios">Benefícios</a></li>
+          <li><a href="#metodologia">Metodologia</a></li>
+        </ul>
+      </div>
+
+      <div class="rodape-col">
+        <h4>Contato</h4>
+        <div class="rodape-contato">
+          <!-- SUBSTITUA: troque pelo seu número com DDD -->
+          <a href="https://wa.me/5521999999999" target="_blank" class="contato-item">
+            <svg viewBox="0 0 24 24" fill="#20D66B" xmlns="http://www.w3.org/2000/svg">
+              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+            </svg>
+            Fale no WhatsApp
+          </a>
+
+          <div class="contato-item">
+            <svg viewBox="0 0 24 24" fill="var(--blue-accent)" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+            </svg>
+            <span>Treinos presenciais<br>Rio de Janeiro - RJ</span>
+          </div>
+
+          <!-- SUBSTITUA: troque pelo seu @ do Instagram -->
+          <a href="https://instagram.com/senosamorimperformance" target="_blank" class="contato-item">
+            <svg viewBox="0 0 24 24" fill="var(--blue-accent)" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
+            </svg>
+            @senosamorim.performance
+          </a>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="rodape-copy">
+      © 2026 Senos Amorim Performance. Todos os direitos reservados.
+    </div>
+  </footer>
+
+  <script>
+    function toggleMenu() {
+      document.getElementById('mobileMenu').classList.toggle('open');
+    }
+    function closeMenu() {
+      document.getElementById('mobileMenu').classList.remove('open');
+    }
+  </script>
+
+</body>
+</html>
